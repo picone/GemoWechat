@@ -1,0 +1,162 @@
+<include file="Public/header"/>
+<link rel="stylesheet" href="__PUBLIC__/JsTree/themes/default/style.min.css"/>
+<div class="wrap container">
+    <div class="alert alert-info">
+        <p>1、自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单。</p>
+        <p>2、一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以“...”代替。</p>
+        <p>3、创建自定义菜单后，由于微信客户端缓存，需要24小时微信客户端才会展现出来。测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。</p>
+    </div>
+    <div id="result"></div>
+    <div class="col-xs-12 col-sm-6">
+        <div><button type="button" class="btn btn-warning btn-lg" id="updateMsg">更新到微信</button></div>
+        <div id="menu_tree" style="margin-top:10px;"></div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <form class="form-horizontal" role="form" id="d" style="display:none;">
+            <input type="hidden" id="id" name="id">
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="name">名称</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" placeholder="菜单显示的名称" id="name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="type">菜单类型</label>
+                <div class="col-xs-10">
+                    <select class="form-control" id="type">
+                        <option value="click">点击推送事件</option>
+                        <option value="view">跳转URL</option>
+                        <option value="scancode_push">扫码推事件</option>
+                        <option value="scancode_waitmsg">扫码推事件且弹出“消息接收中”提示框</option>
+                        <option value="pic_sysphoto">弹出系统拍照发图</option>
+                        <option value="pic_photo_or_album">弹出拍照或者相册发图</option>
+                        <option value="pic_weixin">弹出微信相册发图器</option>
+                        <option value="location_select">弹出地理位置选择器</option>
+                        <option value="media_id">下发消息（除文本消息）</option>
+                        <option value="view_limited">跳转图文消息URL</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" id="val_form">
+                <label class="control-label col-xs-2" id="type_name">菜单ID</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" placeholder="具体属性值" id="val">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right">保存</button>
+        </form>
+    </div>
+</div>
+<script src="__PUBLIC__/JsTree/jstree.min.js"></script>
+<script>
+    var create=false;
+    $(function(){
+        $('#menu_tree').jstree({
+            'core':{
+                'data':{
+                    'url':'/Menu/getMenu',
+                    'async':false,
+                    'data':function(a){
+                        return a;
+                    }
+                },
+                'strings':'正在加载...',
+                'themes':{
+                    'responsive':true
+                }
+            },
+            'contextmenu':{
+                'items':{
+                    'create':{
+                        'label':'创建',
+                        'action':function(a){
+                            $('#id').val($.jstree.reference(a.reference).get_selected());
+                            $('#name').val('');
+                            $('#type').val('click');
+                            $('#val').val('');
+                            create=true;
+                            $('#d').show();
+                        }
+                    },
+                    'remove':{
+                        'label':'删除',
+                        'action':function(a){
+                            if(confirm('你确定要删除吗')) {
+                                $.post('/Menu/d', {'id': parseInt($.jstree.reference(a.reference).get_selected())}, function (a) {
+                                    showMsg(a);
+                                });
+                            }
+                        }
+                    },
+                    'cpp':null,
+                    'rename':null
+                }
+            },
+            'types':{
+                'max_depth':-2,
+                'max_children':-2
+            },
+            'plugins':['contextmenu','state','dnd','data','wholerow','types']
+        }).on('changed.jstree',function(a,b){
+            if(b&&b.selected&&b.selected.length){
+                if(b.selected[0]>0){
+                    $.get('/Menu/r/id/'+b.selected[0],function(a){
+                        if(a&&typeof a.type!=='underfined'){
+                            $('#id').val(b.selected[0]);
+                            $('#name').val(a.name);
+                            $('#type').val(a.type);
+                            $('#val').val(a.val);
+                            create=false;
+                            $('#d').show();
+                        }
+                    });
+                }
+            }else{
+                $('#d').hide();
+            }
+        });
+        $('#type').click(function(){
+            var str='';
+            switch($(this).val()){
+                case 'click':
+                    str='菜单ID';
+                    break;
+                case 'view':
+                    str='跳转URL';
+                    break;
+                case 'media_id':
+                case 'view_limited':
+                    str='素材ID';
+                    break;
+            }
+            if(str==''){
+                $('#val_form').hide();
+            }else{
+                $('#val_form').show();
+                $('#type_name').text(str);
+            }
+        });
+        $('#d').submit(function(){
+            var u;
+            if(create){
+                u='/Menu/c';
+            }else{
+                u='/Menu/u';
+            }
+            $.post(u,{'id':$('#id').val(),'name':$('#name').val(),'type':$('#type').val(),'val':$('#val').val()},function(a){showMsg(a);});
+            return false;
+        });
+        $('#updateMsg').click(function(){
+            $.post('/Menu/updateMenu',function(a){showMsg(a);});
+        });
+    });
+    function showMsg(a){
+        if(a.msg==''){
+            $('#result').html('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>操作成功啦~</div>');
+        }else{
+            $('#result').html('<div class="alert alert-warning"><a href="#" class="close" data-dismiss="alert">&times;</a>' + a.msg + '</div>');
+        }
+        $.jstree.reference('#menu_tree').refresh();
+    }
+</script>
+<include file="Public/footer"/>

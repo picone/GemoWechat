@@ -1,0 +1,30 @@
+<include file="Public/header"/>
+<div class="container" style="margin-top:23px;">
+    <button type="button" class="btn btn-warning btn-lg pull-right" style="margin-bottom:13px;" id="updateList">更新列表</button>
+    <table class="table xs-col-12">
+        <tr>
+            <th width="47"></th>
+            <th>昵称</th>
+            <th>openid</th>
+            <th>城市</th>
+        </tr>
+        <foreach name="data" item="val">
+            <tr>
+                <td><img src="{$val.headimgurl}46"/></td>
+                <td>{$val.nickname}</td>
+                <td>{$val.openid}</td>
+                <td>{$val.city}</td>
+            </tr>
+        </foreach>
+    </table>
+</div>
+<script>
+    $(function(){
+        $('#updateList').click(function(){
+            $.post('/Custom/updateList',function(){
+                location.reload(true);
+            });
+        });
+    });
+</script>
+<include file="Public/footer"/>

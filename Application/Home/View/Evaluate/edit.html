@@ -1,0 +1,55 @@
+<include file="Public/header"/>
+<link rel="stylesheet" href="__PUBLIC__/JsTree/themes/default/style.min.css"/>
+<div class="container">
+    <div id="evaluate_tree"></div>
+</div>
+<script>
+    $('#evaluate_tree').jstree({
+        'core':{
+            'data':{
+                'url':'/Evaluate/getAll',
+                'async':false,
+                'data':function(a){
+                    return a;
+                }
+            },
+            'strings':'正在加载...',
+            'themes':{
+                'responsive':true
+            }
+        },
+        'contextmenu':{
+            'items':{
+                'create':{
+                    'label':'创建',
+                    'action':function(a){
+                        $('#id').val($.jstree.reference(a.reference).get_selected());
+                        $('#name').val('');
+                        $('#type').val('click');
+                        $('#val').val('');
+                        create=true;
+                        $('#d').show();
+                    }
+                },
+                'remove':{
+                    'label':'删除',
+                    'action':function(a){
+                        if(confirm('你确定要删除吗')) {
+                            $.post('/Menu/d', {'id': parseInt($.jstree.reference(a.reference).get_selected())}, function (a) {
+                                showMsg(a);
+                            });
+                        }
+                    }
+                },
+                'cpp':null,
+                'rename':null
+            }
+        },
+        'types':{
+            'max_depth':2,
+            'max_children':5
+        },
+        'plugins':['contextmenu','state','dnd','data','wholerow','types']
+    });
+</script>
+<include file="Public/footer"/>

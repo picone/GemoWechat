@@ -1,0 +1,125 @@
+<include file="Public/header"/>
+<div class="container">
+    <div class="col-xs-12 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">主机信息</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td>系统已运行时间</td>
+                        <td>{$system.uptime}</td>
+                    </tr>
+                    <tr>
+                        <td>内存空闲</td>
+                        <td>{$system.memFree}MB</td>
+                    </tr>
+                    <tr>
+                        <td>真实内存空闲</td>
+                        <td>{$system.memRealFree}MB</td>
+                    </tr>
+                    <tr>
+                        <td>Cache内存使用率</td>
+                        <td>{$system.memCachedPercent}%</td>
+                    </tr>
+                    <tr>
+                        <td>系统负载</td>
+                        <td>{$system.loadAvg}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">接口信息</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td>数据日期</td>
+                        <td>{$wechat.interface.ref_date}</td>
+                    </tr>
+                    <tr>
+                        <td>被动回复用户次数</td>
+                        <td>{$wechat.interface.callback_count}次</td>
+                    </tr>
+                    <tr>
+                        <td>回复失败次数</td>
+                        <td>{$wechat.interface.fail_count}次</td>
+                    </tr>
+                    <tr>
+                        <td>平均回复耗时</td>
+                        <td>{$wechat['interface']['total_time_cost']/$wechat['interface']['callback_count']|round}ms</td>
+                    </tr>
+                    <tr>
+                        <td>最大回复耗时</td>
+                        <td>{$wechat.interface.max_time_cost}ms</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">用户信息</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td>数据日期</td>
+                        <td>{$wechat.user.ref_date}</td>
+                    </tr>
+                    <tr>
+                        <td>用户的渠道</td>
+                        <td>
+                            <switch name="wechat.user.user_source">
+                                <case value="0">其他（包括带参数二维码）</case>
+                                <case value="17">名片分享</case>
+                                <case value="35">搜号码（即微信添加朋友页的搜索）</case>
+                                <case value="39">查询微信公众帐号</case>
+                                <case value="43">图文页右上角菜单</case>
+                                <default/>未知
+                            </switch>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>新增用户量</td>
+                        <td>{$wechat.user.new_user}</td>
+                    </tr>
+                    <tr>
+                        <td>取消关注用户量</td>
+                        <td>{$wechat.user.cancel_user}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">数据库信息</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <td>数据库已运行</td>
+                        <td>{$sql.uptime}</td>
+                    </tr>
+                    <tr>
+                        <td>QC命中率</td>
+                        <td>{$sql.hit_rate}%</td>
+                    </tr>
+                    <tr>
+                        <td>当前连接数</td>
+                        <td>{$sql.connection}个</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public/footer"/>

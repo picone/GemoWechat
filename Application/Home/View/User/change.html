@@ -1,0 +1,24 @@
+<include file="Public/header"/>
+<div class="container">
+    <if condition="IS_POST">
+        <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>修改成功~</div>
+    </if>
+    <form role="form" method="post">
+        <div class="form-group">
+            <label for="old_password" class="control-label">原密码：</label>
+            <input type="password" class="form-control" id="old_password" name="old_password" placeholder="请输入原密码" required>
+        </div>
+        <div class="form-group">
+            <label for="password" class="control-label">新密码：</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码" required>
+        </div>
+        <div class="form-group">
+            <label for="password2" class="control-label">确认新密码：</label>
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="再次确认密码" required>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary pull-right">修改</button>
+        </div>
+    </form>
+</div>
+<include file="Public/footer"/>

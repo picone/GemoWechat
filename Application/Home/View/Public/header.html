@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>
+        <if condition="!empty($title)">
+            {$title}
+        <else/>
+            歌莫信息微信管理平台
+        </if>
+    </title>
+    <link href="__PUBLIC__/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="__PUBLIC__/jquery-2.1.1.min.js"></script>
+</head>
+<body style="padding-top:60px;">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://www.goamob.com" target="_blank">歌莫信息</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">主页</a></li>
+                <li><a href="/Menu">菜单管理</a></li>
+                <li><a href="/Articles">案例管理</a></li>
+                <li><a href="/Setting">杂项设置</a></li>
+                <li><a href="/Contact/view">联系客户</a></li>
+                <li><a href="/Custom">用户列表</a></li>
+                <li><a href="https://mp.weixin.qq.com/cgi-bin/loginpage" target="_blank">微信公众平台管理</a></li>
+                <li><a href="/phpmyadmin" target="_blank">数据库管理</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{:session('user')}</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/User/change">修改密码</a></li>
+                        <li><a href="/User/logout">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

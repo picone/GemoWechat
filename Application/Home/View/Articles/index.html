@@ -1,0 +1,72 @@
+<include file="Public/header"/>
+<link rel="stylesheet" href="__PUBLIC__/article.css">
+<div class="container" style="margin-top:50px;">
+    <div class="alert alert-info">
+        <p>1、若要更改案例类型请先修改菜单。</p>
+        <p>2、每个类型案例最多可以选择十个素材。</p>
+    </div>
+    <if condition="isset($fail)">
+        <if condition="$fail">
+            <div class="alert alert-warning"><a href="#" class="close" data-dismiss="alert">&times;</a>保存失败,请与管理员联系~</div>
+        <else/>
+            <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>保存成功~</div>
+        </if>
+    </if>
+	<form method="post">
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">各级菜单</div>
+                <div class="panel-body">
+                    <volist name="events" id="events">
+                        <div class="checkbox text-center">
+                            <label>
+                                <input type="radio" name="menu_id" value="{$events.id}">{$events.name}
+                            </label>
+                        </div>
+                    </volist>
+                </div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<volist name="data" id="data">
+                <div class="col-md-12 text-left blocks text-overflow">
+                    <h3>{$data.title}</h3>
+                    <input type="checkbox" class="pull-right" name="news_id[]" data-role="{$key}" value="{$key}">
+                    <p>{$data.digest}</p>
+                    <label style="width:100%;">图片URL<input type="text" class="form-control" name="picture[]" value="{$data.picture}"></label>
+                </div>
+			</volist>
+			<input type="submit" value="保存" class="btn btn-primary btn-lg pull-right">
+		</div>
+	</form>
+</div>
+<script>
+    var edit=false;
+    $(function(){
+        $("input[type='radio']").click(function(){
+            if(edit&&confirm('你是否放弃修改?')){
+                $.get('/Articles/getCur/id/'+$(this).val(),function(a){
+                    $("input[type='checkbox']").removeAttr('checked');
+                    $.each(a,function(i,v){
+                        $('input[data-role=\''+ v.media_id+'\']').attr('checked','checked');
+                    });
+                    edit=false;
+                });
+            }
+        });
+        $('input[type=\'checkbox\']').click(function(){
+            edit=true;
+        });
+        $('form').submit(function(){
+            if($('input:radio[name="menu_id"]:checked').val()==null){
+                alert('请先选择一个案例类型');
+                return false;
+            }
+            if($('input:checkbox:checked').length==0){
+                alert('请选择至少一个素材');
+                return false;
+            }
+        });
+    });
+</script>
+<include file="Public/footer"/>

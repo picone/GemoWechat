@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>欢迎来到歌莫信息微信后台管理系统</title>
+
+    <!-- Bootstrap -->
+    <link href="__PUBLIC__/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body{
+            font-family: "微软雅黑";
+        }
+        .jumbotron{
+            background: url(__PUBLIC__/background.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            padding-bottom: 60px;
+        }
+        #login_frame{
+            padding-top: 30px;
+            background: #fff;
+            padding-bottom: 30px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <div class="container">
+        <div class="col-md-4 col-md-offset-8" id="login_frame">
+            <div class="container">
+                <form action="" method="post">
+                    <div class="form-group">
+                        <label for="uname">登录名：</label>
+                        <input type="text" name="uname" class="form-control" id="uname" placeholder="请输入用户名">
+                    </div>
+                    <div class="form-group">
+                        <label for="pswd">密码：</label>
+                        <input type="password" name="pswd" id="pswd" class="form-control" placeholder="请输入密码">
+                    </div>
+                    <button type="submit" class="text-right btn btn-lg btn-block btn-primary">登录</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__PUBLIC__/bootstrap.min.js"></script>
+</body>
+</html>

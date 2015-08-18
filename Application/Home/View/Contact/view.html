@@ -1,0 +1,30 @@
+<include file="Public/header"/>
+<div class="container">
+    <div id="result"></div>
+    <ul class="list-group">
+        <foreach name="data" item="val">
+            <div class="col-xs-12 text-overflow list-group-item" data-role="{$val.id}">
+                <h3>{$val.name}：{$val.contact}<button type="button" class="btn btn-danger pull-right" data-role="{$val.id}">删除</button></h3>
+                <p>{$val.description}</p>
+            </div>
+        </foreach>
+    </ul>
+</div>
+<script>
+    $(function(){
+        $('button').click(function(){
+            if(confirm('删除后不可恢复，你确定要进行这个操作吗？')){
+                var id=$(this).attr('data-role');
+                $.post('/Contact/d',{'id':id},function(a){
+                    if(a.msg==''){
+                        $('#result').html('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>操作成功啦~</div>');
+                        $('div[data-role='+id+']').remove();
+                    }else{
+                        $('#result').html('<div class="alert alert-warning"><a href="#" class="close" data-dismiss="alert">&times;</a>' + a.msg + '</div>');
+                    }
+                });
+            }
+        });
+    });
+</script>
+<include file="Public/footer"/>
